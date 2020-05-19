@@ -1,0 +1,9 @@
+#N canvas 966 262 200 200 10;
+#N canvas 19 48 420 300 META 0;
+#X text 10 10 META this is a prototype of a libdir meta file;
+#X text 10 30 NAME tresf;
+#X text 10 51 AUTHOR José Henrique Padovani;
+#X text 10 90 LICENSE ?;
+#X text 10 110 VERSION 0.01;
+#X text 10 70 DESCRIPTION Port of Manoury's 3fc Three Frequencies Synthesis (fm_shuffle_three.java) to Pd [C code].;
+#X restore 10 10 pd META;
