@@ -1,36 +1,36 @@
 #N canvas 480 111 1440 845 12;
 #X declare -path ../;
 #X declare -lib tresf;
-#X floatatom 371 270 5 0 0 0 - - -;
-#X msg 371 290 all \$1;
-#X msg 489 289 all \$1;
-#X obj 254 284 prepend next;
-#X floatatom 489 267 5 0 0 0 - - -;
-#X floatatom 200 137 5 0 0 0 - - -;
-#X msg 229 194 ampjitter \$1;
-#X floatatom 229 171 5 0 0 0 - - -;
-#X obj 213 114 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+#X floatatom 261 500 5 0 0 0 - - -;
+#X msg 261 520 all \$1;
+#X msg 379 519 all \$1;
+#X obj 144 514 prepend next;
+#X floatatom 379 497 5 0 0 0 - - -;
+#X floatatom 90 437 5 0 0 0 - - -;
+#X msg 139 464 ampjitter \$1;
+#X floatatom 139 441 5 0 0 0 - - -;
+#X obj 103 414 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
 -1 -1 11430 1;
-#X msg 650 104 \; pd dsp 1;
-#X msg 650 141 \; pd dsp 0;
-#X obj 371 248 r time;
-#X obj 209 92 r proba;
-#X obj 321 29 declare -path ../;
-#X obj 200 220 tresf, f 16;
-#X obj 1020 39 table \$0-audioin;
-#X obj 1020 285 soundfiler;
-#X obj 1020 241 f \$0;
-#X obj 1020 223 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X msg 21 232 \; pd dsp 1;
+#X msg 21 269 \; pd dsp 0;
+#X obj 261 478 r time;
+#X obj 99 392 r proba;
+#X obj 1018 17 declare -path ../;
+#X obj 90 490 tresf, f 16;
+#X obj 1020 89 table \$0-audioin;
+#X obj 1020 375 soundfiler;
+#X obj 1020 331 f \$0;
+#X obj 1020 313 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X msg 1020 264 read -resize audio/cordas.wav \$1-audioin;
-#X obj 660 308 tabplay~ \$0-audioin;
-#X msg 681 275 stop;
-#X msg 681 253 bang;
-#X obj 1020 202 loadbang;
-#X text 719 251 play;
-#X text 719 273 stop;
-#X obj 321 52 declare -lib tresf;
-#X obj 255 335 send~ oscsout;
+#X msg 1020 354 read -resize audio/cordas.wav \$1-audioin;
+#X obj 234 280 tabplay~ \$0-audioin;
+#X msg 255 259 stop;
+#X msg 255 237 bang;
+#X obj 1020 292 loadbang;
+#X text 293 235 play;
+#X text 293 257 stop;
+#X obj 1018 38 declare -lib tresf;
+#X obj 145 565 send~ oscsout;
 #N canvas 291 294 864 618 OUT 0;
 #X obj 53 295 *~;
 #X obj 139 434 dac~;
@@ -88,10 +88,10 @@
 #X connect 26 0 12 0;
 #X connect 26 0 1 1;
 #X coords 0 -1 1 1 250 170 2 0 0;
-#X restore 207 394 pd OUT;
-#X obj 1020 61 loadbang;
-#X obj 489 246 r attack;
-#X msg 900 123 \; proba 0.086 \; time 2 \; attack 400 \; ampthresh
+#X restore 47 624 pd OUT;
+#X obj 1020 151 loadbang;
+#X obj 379 476 r attack;
+#X msg 546 300 \; proba 0.086 \; time 2 \; attack 400 \; ampthresh
 60 \;;
 #N canvas 526 48 1083 757 signal_analysis 0;
 #X obj 300 159 route 0 1 2, f 12;
@@ -134,18 +134,28 @@
 #X connect 15 0 12 1;
 #X connect 17 0 9 0;
 #X connect 17 0 6 0;
-#X restore 658 374 pd signal_analysis;
-#X text 647 75 1 turn DSP on;
-#X text 647 218 2 play;
-#X obj 124 192 r \$0-tresf;
-#X obj 660 330 send~ insig;
-#X msg 1019 82 \; proba 0.9 \; time 10 \; attack 670 \; ampthresh 72
-\; oscs_dB 100 \; in_dB 96 \; mainOut_dB 100 \;;
-#X obj 254 313 clone osc_abs 16, f 34;
+#X restore 145 587 pd signal_analysis;
+#X obj 14 462 r \$0-tresf;
+#X obj 234 302 send~ insig;
+#X msg 1019 172 \; proba 0.9 \; time 10 \; attack 670 \; ampthresh
+72 \; oscs_dB 100 \; in_dB 96 \; mainOut_dB 100 \;;
+#X obj 144 543 clone osc_abs 16, f 34;
+#X text 14 9 Simple example using tresf ("3f synthesis" object) to
+control a bank of oscillators.;
+#X text 154 45 patch: Vinicius Cesar de Oliveira;
+#X text 1149 39 load tresf lib;
+#X text 1143 17 locate of tresf lib;
+#X text 1140 89 place to store example in audio;
+#X text 1088 151 loadbang parameters;
+#X text 14 86 obs: this patch uses Miller Puckette [sigmund~] object
+to work. See [pd signal-analysis].;
+#X text 18 203 1 turn DSP on;
+#X text 220 202 2 play;
+#X text 546 276 change parameters...;
 #X connect 0 0 1 0;
-#X connect 1 0 38 1;
-#X connect 2 0 38 2;
-#X connect 3 0 38 0;
+#X connect 1 0 36 1;
+#X connect 2 0 36 2;
+#X connect 3 0 36 0;
 #X connect 4 0 2 0;
 #X connect 5 0 14 0;
 #X connect 6 0 14 0;
@@ -157,11 +167,11 @@
 #X connect 17 0 19 0;
 #X connect 18 0 17 0;
 #X connect 19 0 16 0;
-#X connect 20 0 36 0;
+#X connect 20 0 34 0;
 #X connect 21 0 20 0;
 #X connect 22 0 20 0;
 #X connect 23 0 18 0;
-#X connect 29 0 37 0;
+#X connect 29 0 35 0;
 #X connect 30 0 4 0;
-#X connect 35 0 14 0;
-#X connect 38 0 27 0;
+#X connect 33 0 14 0;
+#X connect 36 0 27 0;
