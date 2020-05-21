@@ -2,6 +2,7 @@
 # Needs Makefile.pdlibbuilder as helper makefile for platform-dependent build
 # settings and rules.
 
+
 # library name
 lib.name = tresf
 
@@ -17,10 +18,15 @@ lib.name = tresf
 hrand := shared/rand.c
 tresf.class.sources := tresf.c $(hrand)
 
+# ifeq ($(uname), MINGW)
+#        ldlibs = -lwsock32
+# endif
+
 
 # all extra files to be included in binary distribution of the library
-datafiles = tresf-help.pd tresf-meta.pd
+datafiles = tresf-help.pd tresf-meta.pd tresf-example.pd osc_abs.pd README.md license cordas.wav
 
 # include Makefile.pdlibbuilder from submodule directory 'pd-lib-builder'
+PDLIBDIR=./libout/
 PDLIBBUILDER_DIR=pd-lib-builder/
 include $(PDLIBBUILDER_DIR)/Makefile.pdlibbuilder

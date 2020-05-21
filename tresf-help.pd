@@ -1,6 +1,19 @@
-#N canvas 316 53 1236 952 10;
-#X floatatom 21 50 5 0 0 0 - - -;
-#N canvas 0 23 763 525 gera_tres_fres_input 0;
+#N canvas 712 23 803 952 10;
+#X floatatom 68 530 5 0 0 0 - - -;
+#X obj 25 465 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 36 503 print input_freqs;
+#X obj 21 916 print dump;
+#X obj 34 884 print f_a_d;
+#X obj 48 801 route freqs amps damps;
+#X msg 87 600 ampjitter \$1;
+#X floatatom 87 582 5 0 0 0 - - -;
+#X obj 48 821 print freqs;
+#X obj 91 841 print amps;
+#X obj 134 862 print damps;
+#X obj 21 778 tresf;
+#X msg 78 554 maxfreqs 32;
+#N canvas 0 23 763 525 generate_random_3freqslist 0;
 #X obj 127 130 random 400;
 #X obj 126 153 + 100;
 #X msg 127 92 3;
@@ -8,7 +21,7 @@
 #X floatatom 126 174 5 0 0 0 - - -;
 #X obj 103 40 inlet;
 #X obj 103 59 t b b b;
-#X msg 103 227 223 303 417;
+#X msg 103 227 267 116 438;
 #X msg 253 165 set;
 #X msg 127 196 add2 \$1;
 #X obj 103 247 outlet;
@@ -24,42 +37,113 @@
 #X connect 7 0 10 0;
 #X connect 8 0 7 0;
 #X connect 9 0 7 0;
-#X restore 41 97 pd gera_tres_fres_input;
-#X obj 41 79 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 58 121 print input_freqs;
-#X text 58 41 1 mudar probabilidade (default interno: 0.5 \, valor
-será limitado \, internamente \, entre 0.03 e 1.);
-#X text 102 345 dump: 16 triades formadas por freq \, amp \, damping
+#X restore 25 483 pd generate_random_3freqslist;
+#X floatatom 94 621 5 0 0 0 - - -;
+#X msg 94 639 lowf \$1;
+#X floatatom 106 660 5 0 0 0 - - -;
+#X msg 106 678 hif \$1;
+#X obj 1 27 cnv 3 800 3 empty empty description 12 12 0 12 -128992
+-66577 0;
+#N canvas 0 23 1183 557 (subpatch) 0;
+#X obj 347 40 pdcontrol;
+#X obj 13 8 inlet;
+#X msg 14 40 browse http://www.philippemanoury.com/?p=6506;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X coords 0 -1 1 1 1 1 2 1 1;
+#X restore 36 93 pd;
+#X obj 1 101 cnv 3 800 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X text 115 313 cada lista [freq \, amp \, damping];
-#X text 215 232 listas com prefixo freqs \, amp \, damping e valores
-respectivos;
-#X obj 21 345 print dump;
-#X obj 34 313 print f_a_d;
-#X obj 48 230 route freqs amps damps;
-#X text 60 77 2 entrar com lista de 3 frequencias;
-#X msg 150 181 ampjitter \$1;
-#X floatatom 150 163 5 0 0 0 - - -;
-#X obj 48 250 print freqs;
-#X obj 91 270 print amps;
-#X obj 134 291 print damps;
-#X text 235 162 default: 0;
-#X obj 21 207 tresf;
-#X msg 356 124 list a b c d;
-#X obj 362 158 print;
-#X msg 437 156 qqcoisa a b c d;
-#X connect 0 0 18 0;
-#X connect 1 0 3 0;
-#X connect 1 0 18 0;
-#X connect 2 0 1 0;
-#X connect 10 0 14 0;
-#X connect 10 1 15 0;
-#X connect 10 2 16 0;
-#X connect 12 0 18 0;
-#X connect 13 0 12 0;
-#X connect 18 0 8 0;
-#X connect 18 1 9 0;
-#X connect 18 2 10 0;
-#X connect 19 0 20 0;
-#X connect 21 0 20 0;
+#X obj 83 107 cnv 18 3 17 empty empty 0 5 9 0 14 -228856 -162280 0
+;
+#X obj 1 331 cnv 3 800 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 83 337 cnv 18 3 17 empty empty 0 5 9 0 14 -228856 -162280 0
+;
+#X obj 83 367 cnv 18 3 17 empty empty 1 5 9 0 14 -228856 -162280 0
+;
+#X obj 83 387 cnv 18 3 17 empty empty 2 5 9 0 14 -228856 -162280 0
+;
+#X obj 1 421 cnv 3 800 3 empty empty example 8 12 0 13 -228856 -1 0
+;
+#X obj 1 -1 cnv 3 800 3 empty empty tresf 14 14 1 16 -128992 -66577
+0;
+#X msg 36 79 more about 3f synthesis;
+#X text 105 107 float:;
+#X text 187 79 (see section 3.2);
+#X text 105 157 maxfreqs:;
+#X text 105 197 ampjitter:;
+#X text 198 157 number of freq/amp/damp values to be generated (range
+1 – 64 \; init value is: 16);
+#X text 198 197 higher values will create more diversity in amp values
+(range: 0 – 100 \; init value is: 0);
+#X text 105 237 lowf:;
+#X text 105 257 hif:;
+#X text 198 237 "low pass" freq value in Hz (init value is: 20);
+#X text 198 257 "hi pass" freq value in Hz (init value is: 22050);
+#X text 105 277 maxamp:;
+#X text 198 277 max dB value (range: 0 – 100 \; init value is: 90.)
+;
+#X text 198 307 dB decay factor per 1kHz (init value is: 1);
+#X text 32 48 reimplementation (with some enhancements) of "3f synthesis"
+\, used by P. Manoury in works like /Tensio/.;
+#X text 105 337 list:;
+#X text 198 337 list with size N (= 3*maxfreq) freq0 amp0 damp0 freq1
+amp1 damp1... etc). amps and damps ranges are in Pd dB (0–100);
+#X text 104 367 list:;
+#X text 198 367 lists for each triad of freq \, amp and damp;
+#X text 105 387 list:;
+#X text 198 387 lists with prefixes freqs \, amps and damps followed
+by the respective values of these parameters;
+#X text 103 528 probability;
+#X floatatom 116 700 5 0 0 0 - - -;
+#X msg 116 718 maxamp \$1;
+#X obj 177 700 hsl 100 15 1 100 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 126 740 5 0 0 0 - - -;
+#X obj 187 740 hsl 100 15 1 18 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 668 82 tested on pd 0.50-2;
+#X text 213 915 see also tresf-example.pd for a bigger example;
+#X obj 499 914 tresf-example;
+#X msg 17 443 100 400 700;
+#X text 198 107 probability: high values should result in more harmonicity/
+and low partials \, low values should result in more inhamonicity/entropy
+and high partials (range 0.03 – 1 \; init value is: 1);
+#X msg 126 758 ampfactor \$1;
+#X text 105 307 ampfactor:;
+#N canvas 0 23 1183 557 (subpatch) 0;
+#X obj 347 40 pdcontrol;
+#X obj 13 8 inlet;
+#X msg 14 40 browse http://josehenriquepadovani.com;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X coords 0 -1 1 1 1 1 2 1 1;
+#X restore 646 48 pd;
+#X msg 646 34 José H. Padovani \, 2020;
+#X connect 0 0 11 0;
+#X connect 1 0 13 0;
+#X connect 5 0 8 0;
+#X connect 5 1 9 0;
+#X connect 5 2 10 0;
+#X connect 6 0 11 0;
+#X connect 7 0 6 0;
+#X connect 11 0 3 0;
+#X connect 11 1 4 0;
+#X connect 11 2 5 0;
+#X connect 12 0 11 0;
+#X connect 13 0 2 0;
+#X connect 13 0 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 11 0;
+#X connect 16 0 17 0;
+#X connect 17 0 11 0;
+#X connect 28 0 19 0;
+#X connect 50 0 51 0;
+#X connect 51 0 11 0;
+#X connect 52 0 50 0;
+#X connect 53 0 60 0;
+#X connect 54 0 53 0;
+#X connect 58 0 11 0;
+#X connect 60 0 11 0;
+#X connect 63 0 62 0;

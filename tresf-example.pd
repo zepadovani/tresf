@@ -1,0 +1,279 @@
+#N canvas 480 88 803 844 12;
+#X obj 355 489 prepend next;
+#X msg 37 148 \; pd dsp 1;
+#X msg 37 185 \; pd dsp 0;
+#X obj 301 465 tresf, f 16;
+#X obj 408 214 table \$0-audioin;
+#X obj 408 192 soundfiler;
+#X obj 408 148 f \$0;
+#X obj 408 130 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 142 220 tabplay~ \$0-audioin;
+#X msg 194 179 stop;
+#X msg 194 142 bang;
+#X obj 408 109 loadbang;
+#X text 232 140 play;
+#X text 232 177 stop;
+#X obj 355 534 send~ oscsout;
+#N canvas 291 294 864 618 OUT 0;
+#X obj 53 295 *~;
+#X obj 139 434 dac~;
+#X obj 149 398 *~;
+#X obj 156 24 vsl 30 100 0 100 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 9900 1;
+#X obj 361 236 dbtorms;
+#X obj 361 278 line~;
+#X msg 361 257 \$1 10;
+#X text 153 1 main out;
+#X obj 15 24 vsl 20 100 0 100 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 9900 1;
+#X obj 71 230 dbtorms;
+#X obj 71 272 line~;
+#X msg 71 251 \$1 10;
+#X obj 203 295 *~;
+#X obj 81 24 vsl 20 100 0 100 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 9504 1;
+#X obj 231 230 dbtorms;
+#X obj 231 272 line~;
+#X msg 231 251 \$1 10;
+#X obj 65 -45 r oscs_dB;
+#X obj 289 -58 r mainOut_dB;
+#X obj -7 267 r~ oscsout;
+#X floatatom 156 131 5 0 0 0 - - -;
+#X floatatom 81 131 5 0 0 0 - - -;
+#X floatatom 15 131 5 0 0 0 - - -;
+#X text 2 1 osc bank;
+#X text 71 1 in/file;
+#X obj 222 -48 r in_dB;
+#X obj 119 270 r~ insig;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 2 0 1 1;
+#X connect 3 0 4 0;
+#X connect 3 0 20 0;
+#X connect 4 0 6 0;
+#X connect 5 0 2 1;
+#X connect 6 0 5 0;
+#X connect 8 0 9 0;
+#X connect 8 0 22 0;
+#X connect 9 0 11 0;
+#X connect 10 0 0 1;
+#X connect 11 0 10 0;
+#X connect 12 0 2 0;
+#X connect 13 0 14 0;
+#X connect 13 0 21 0;
+#X connect 14 0 16 0;
+#X connect 15 0 12 1;
+#X connect 16 0 15 0;
+#X connect 17 0 8 0;
+#X connect 18 0 3 0;
+#X connect 19 0 0 0;
+#X connect 25 0 13 0;
+#X connect 26 0 12 0;
+#X coords 0 -1 1 1 250 170 2 0 0;
+#X restore 33 645 pd OUT;
+#X obj 657 195 loadbang;
+#N canvas 526 48 1083 757 signal_analysis 0;
+#X obj 300 159 route 0 1 2, f 12;
+#X msg 300 185 \$1;
+#X msg 333 185 \$1;
+#X msg 367 185 \$1;
+#X obj 300 210 pack 0 0 0;
+#X obj 275 255 list;
+#X obj 300 111 sigmund~ -npts 4096 -hop 2048 -npeak 3 -maxfreq 5000
+-stabletime 100 -minpower 80 -vibrato 0.5 -growth 10 peaks, f 68;
+#X floatatom 142 128 5 0 0 0 - - -;
+#X obj 202 177 vsl 20 100 0 100 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 142 106 env~ 4096 1024;
+#X obj 152 243 sel 1;
+#X obj 152 267 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 152 199 > 78;
+#X obj 152 221 change;
+#X text 16 108 cheap attack det.;
+#X obj 177 153 r ampthresh;
+#X obj 275 281 s \$0-tresf;
+#X obj 200 45 receive~ insig;
+#X connect 0 0 1 0;
+#X connect 0 1 2 0;
+#X connect 0 2 3 0;
+#X connect 1 0 4 0;
+#X connect 2 0 4 1;
+#X connect 3 0 4 2;
+#X connect 4 0 5 1;
+#X connect 5 0 16 0;
+#X connect 6 0 0 0;
+#X connect 7 0 8 0;
+#X connect 7 0 12 0;
+#X connect 9 0 7 0;
+#X connect 10 0 11 0;
+#X connect 11 0 5 0;
+#X connect 12 0 13 0;
+#X connect 13 0 10 0;
+#X connect 15 0 12 1;
+#X connect 17 0 9 0;
+#X connect 17 0 6 0;
+#X restore 408 237 pd signal_analysis;
+#X text 34 119 1 turn DSP on;
+#X text 191 119 2 play;
+#X obj 301 443 r \$0-tresf;
+#X obj 142 242 send~ insig;
+#X msg 408 171 read -resize audio/cordas.wav \$1-audioin;
+#N canvas 520 119 980 745 control 0;
+#X floatatom 140 61 8 0 0 0 - - -;
+#X msg 471 184 ampjitter \$1;
+#X floatatom 140 145 8 0 0 0 - - -;
+#X obj 7 64 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 12700 1;
+#X obj 206 56 r proba;
+#X obj 7 147 hsl 128 15 0 100 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 204 141 r ampjitter;
+#X text 4 45 probability;
+#X text 2 130 amp jitter;
+#X floatatom 140 19 5 0 0 0 - - -;
+#X obj 7 21 hsl 128 15 0 64 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 6350 1;
+#X obj 209 17 r maxfreqs;
+#X obj 218 -6 int;
+#X obj 413 294 outlet;
+#X floatatom 140 109 8 0 0 0 - - -;
+#X obj 7 111 hsl 128 15 0 100 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 11430 1;
+#X text 2 94 max amp;
+#X msg 323 183 maxfreqs \$1;
+#X msg 389 148 maxamp \$1;
+#X obj 204 103 r maxamp;
+#X floatatom 140 185 8 0 0 0 - - -;
+#X obj 7 187 hsl 128 15 0 40 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 952 1;
+#X floatatom 140 245 8 0 0 0 - - -;
+#X obj 7 247 hsl 128 15 -20000 20000 0 0 empty empty empty -2 -8 0
+10 -262144 -1 -1 0 1;
+#X text 2 230 lowf;
+#X obj 204 241 r lowf;
+#X floatatom 140 285 8 0 0 0 - - -;
+#X obj 7 287 hsl 128 15 -20000 20000 0 0 empty empty empty -2 -8 0
+10 -262144 -1 -1 12700 1;
+#X text 2 270 hif;
+#X obj 204 281 r hif;
+#X msg 296 243 lowf \$1;
+#X msg 296 268 hif \$1;
+#X text 9 3 max freqs;
+#X obj 0 0 cnv 2 200 2 empty empty empty 20 12 0 14 -99865 -66577 0
+;
+#X obj 0 40 cnv 2 200 2 empty empty empty 20 12 0 14 -99865 -66577
+0;
+#X obj 0 90 cnv 2 200 2 empty empty empty 20 12 0 14 -99865 -66577
+0;
+#X obj 0 215 cnv 2 200 2 empty empty empty 20 12 0 14 -99865 -66577
+0;
+#X obj 0 309 cnv 2 200 2 empty empty empty 20 12 0 14 -99865 -66577
+0;
+#X msg 393 223 ampfactor \$1;
+#X obj 204 181 r ampfactor;
+#X text 2 170 amp factor;
+#X connect 0 0 13 0;
+#X connect 1 0 13 0;
+#X connect 2 0 1 0;
+#X connect 3 0 0 0;
+#X connect 4 0 3 0;
+#X connect 5 0 2 0;
+#X connect 6 0 5 0;
+#X connect 9 0 17 0;
+#X connect 10 0 12 0;
+#X connect 11 0 10 0;
+#X connect 12 0 9 0;
+#X connect 14 0 18 0;
+#X connect 15 0 14 0;
+#X connect 17 0 13 0;
+#X connect 18 0 13 0;
+#X connect 19 0 15 0;
+#X connect 20 0 38 0;
+#X connect 21 0 20 0;
+#X connect 22 0 30 0;
+#X connect 23 0 22 0;
+#X connect 25 0 23 0;
+#X connect 26 0 31 0;
+#X connect 27 0 26 0;
+#X connect 29 0 27 0;
+#X connect 30 0 13 0;
+#X connect 31 0 13 0;
+#X connect 38 0 13 0;
+#X connect 39 0 21 0;
+#X coords 0 -1 1 1 200 312 2 0 0;
+#X restore 33 289 pd control;
+#X obj 33 605 s \$0-tresf;
+#X text 26 66 obs: this patch uses [sigmund~] \, by Miller Puckette
+\, for signal analysis (see [pd signal_analysis]).;
+#X obj 1 -1 cnv 3 800 3 empty empty tresf_example_patch 14 14 1 16
+-128992 -66577 0;
+#X obj 1 27 cnv 3 800 3 empty empty description 12 12 0 12 -128992
+-66577 0;
+#X obj 1 101 cnv 3 800 3 empty empty empty 8 12 0 13 -228856 -1 0;
+#X text 25 45 usage example based on a patch by Vinicius C. de Oliveira.
+;
+#X obj 355 512 clone osc_abs 64, f 34;
+#X text 31 271 tresf parameters:;
+#X text 311 289 osc bank parameters:;
+#N canvas 0 23 850 704 oscpars 0;
+#X msg 16 133 all \$1;
+#X msg 130 131 all \$1;
+#X obj -47 17 r time;
+#X obj -61 63 r attack;
+#X floatatom 140 25 8 0 0 0 - - -;
+#X obj 5 27 hsl 128 15 0 100 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 5080 1;
+#X obj 16 158 outlet;
+#X obj 133 157 outlet;
+#X floatatom 140 75 8 0 0 0 - - -;
+#X obj 5 77 hsl 128 15 0 8000 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 794 1;
+#X text 2 8 time:;
+#X text 1 58 attack:;
+#X obj 0 1 cnv 2 200 2 empty empty empty 20 12 0 14 -99865 -66577 0
+;
+#X obj 0 98 cnv 2 200 2 empty empty empty 20 12 0 14 -99865 -66577
+0;
+#X connect 0 0 6 0;
+#X connect 1 0 7 0;
+#X connect 2 0 5 0;
+#X connect 3 0 9 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 0;
+#X connect 8 0 1 0;
+#X connect 9 0 8 0;
+#X coords 0 -1 1 1 200 100 2 0 0;
+#X restore 313 305 pd oscpars;
+#X obj 228 616 print;
+#X msg 656 216 \; proba 1 \; time 40 \; attack 500 \; ampthresh 72
+\; ampjitter 0 \; maxfreqs 32 \; maxamp 90 \; ampfactor 3 \; lowf -20000
+\; hif 20000 \; oscs_dB 100 \; in_dB 96 \; mainOut_dB 100 \;;
+#X text 643 82 tested on pd 0.50-2;
+#N canvas 0 23 1183 557 (subpatch) 0;
+#X obj 347 40 pdcontrol;
+#X obj 13 8 inlet;
+#X msg 14 40 browse http://josehenriquepadovani.com;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X coords 0 -1 1 1 1 1 2 1 1;
+#X restore 624 50 pd;
+#X msg 624 33 José H. Padovani \, 2020;
+#X connect 0 0 30 0;
+#X connect 3 1 0 0;
+#X connect 3 1 34 0;
+#X connect 6 0 22 0;
+#X connect 7 0 6 0;
+#X connect 8 0 21 0;
+#X connect 9 0 8 0;
+#X connect 10 0 8 0;
+#X connect 11 0 7 0;
+#X connect 16 0 35 0;
+#X connect 20 0 3 0;
+#X connect 22 0 5 0;
+#X connect 23 0 24 0;
+#X connect 30 0 14 0;
+#X connect 33 0 30 1;
+#X connect 33 1 30 2;
+#X connect 38 0 37 0;
